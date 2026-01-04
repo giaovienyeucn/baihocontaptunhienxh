@@ -47,36 +47,36 @@ export const Quiz: React.FC<QuizProps> = ({ onFinish, onGoHome }) => {
   }, [currentIndex, currentQuestion]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[80vh] w-full max-w-3xl mx-auto px-4 relative">
+    <div className="flex flex-col items-center justify-center min-h-[80vh] w-full max-w-3xl mx-auto px-3 sm:px-4 relative">
       {/* Home Button */}
       <button
         onClick={onGoHome}
-        className="absolute top-0 left-0 bg-white/90 hover:bg-white text-gray-700 p-3 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 z-20"
+        className="fixed top-3 left-3 bg-white/90 hover:bg-white text-gray-700 p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 z-20"
         title="Về trang chủ"
       >
-        <Home className="w-6 h-6" />
+        <Home className="w-5 h-5 sm:w-6 sm:h-6" />
       </button>
 
       {/* Progress Bar */}
-      <div className="w-full bg-gray-200 rounded-full h-4 mb-8">
+      <div className="w-full bg-gray-200 rounded-full h-3 sm:h-4 mb-6 sm:mb-8 mt-10 sm:mt-0">
         <div
-          className="bg-blue-500 h-4 rounded-full transition-all duration-500"
+          className="bg-blue-500 h-3 sm:h-4 rounded-full transition-all duration-500"
           style={{ width: `${((currentIndex) / QUESTIONS.length) * 100}%` }}
         ></div>
       </div>
 
       {/* Question Card */}
-      <div className="bg-white rounded-2xl shadow-2xl p-8 w-full mb-8 border-t-8 border-blue-500 relative overflow-hidden">
-        <div className="absolute top-0 right-0 bg-blue-500 text-white px-4 py-2 rounded-bl-xl font-bold">
+      <div className="bg-white rounded-2xl shadow-2xl p-5 sm:p-8 w-full mb-6 sm:mb-8 border-t-8 border-blue-500 relative overflow-hidden">
+        <div className="absolute top-0 right-0 bg-blue-500 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-bl-xl font-bold text-sm sm:text-base">
           Câu {currentIndex + 1}/{QUESTIONS.length}
         </div>
-        <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 text-center mt-4 mb-2">
+        <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 text-center mt-6 sm:mt-4 mb-2">
           {currentQuestion.question}
         </h3>
       </div>
 
       {/* Options Grid */}
-      <div className="grid gap-4 w-full">
+      <div className="grid gap-3 sm:gap-4 w-full">
         {currentQuestion.options.map((option) => {
           const isSelected = selectedId === option.id;
           const isCorrect = option.id === currentQuestion.correctId;
@@ -97,22 +97,22 @@ export const Quiz: React.FC<QuizProps> = ({ onFinish, onGoHome }) => {
               onClick={() => handleAnswer(option.id)}
               disabled={isChecking}
               className={`
-                relative p-6 rounded-xl text-lg sm:text-xl font-bold transition-all duration-200 shadow-md text-left flex items-center justify-between
+                relative p-4 sm:p-6 rounded-xl text-base sm:text-lg md:text-xl font-bold transition-all duration-200 shadow-md text-left flex items-center justify-between
                 ${buttonStyle}
               `}
             >
-              <span className="flex items-center gap-3">
+              <span className="flex items-center gap-2 sm:gap-3">
                 <span className={`
-                    w-10 h-10 rounded-full flex items-center justify-center text-white font-bold shrink-0
+                    w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-white font-bold shrink-0 text-sm sm:text-base
                     ${showResult && isCorrect ? 'bg-green-500' : (showResult && isSelected ? 'bg-red-500' : 'bg-blue-400')}
                 `}>
                   {option.id}
                 </span>
-                {option.text}
+                <span className="text-sm sm:text-base md:text-lg">{option.text}</span>
               </span>
 
-              {showResult && isCorrect && <CheckCircle className="text-green-600 w-8 h-8 animate-bounce" />}
-              {showResult && isSelected && !isCorrect && <XCircle className="text-red-600 w-8 h-8 animate-pulse" />}
+              {showResult && isCorrect && <CheckCircle className="text-green-600 w-6 h-6 sm:w-8 sm:h-8 animate-bounce" />}
+              {showResult && isSelected && !isCorrect && <XCircle className="text-red-600 w-6 h-6 sm:w-8 sm:h-8 animate-pulse" />}
             </button>
           );
         })}

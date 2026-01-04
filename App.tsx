@@ -95,16 +95,16 @@ const App: React.FC = () => {
 
       <main className="container mx-auto px-4 py-6 relative z-10">
         {phase === 'intro' && (
-          <div className="flex flex-col items-center justify-center min-h-[80vh] text-center space-y-8 animate-pop">
+          <div className="flex flex-col items-center justify-center min-h-[80vh] text-center space-y-6 sm:space-y-8 animate-pop px-2">
 
-            {/* Decorative sparkles */}
-            <div className="absolute top-20 left-20 text-4xl animate-bounce opacity-50">✨</div>
-            <div className="absolute top-40 right-32 text-3xl bounce-subtle opacity-50">🌟</div>
-            <div className="absolute bottom-40 left-32 text-3xl bounce-subtle opacity-50" style={{ animationDelay: '1s' }}>💫</div>
+            {/* Decorative sparkles - hidden on mobile */}
+            <div className="hidden sm:block absolute top-20 left-20 text-4xl animate-bounce opacity-50">✨</div>
+            <div className="hidden sm:block absolute top-40 right-32 text-3xl bounce-subtle opacity-50">🌟</div>
+            <div className="hidden sm:block absolute bottom-40 left-32 text-3xl bounce-subtle opacity-50" style={{ animationDelay: '1s' }}>💫</div>
 
             {/* Voice Setup Guide if no voice detected */}
             {hasVoice === false && (
-              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-yellow-400 text-gray-800 p-5 rounded-2xl shadow-xl max-w-2xl text-left animate-pop">
+              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-yellow-400 text-gray-800 p-4 sm:p-5 rounded-2xl shadow-xl max-w-2xl text-left animate-pop">
                 <div className="flex items-center font-bold text-lg mb-3 text-yellow-700">
                   <AlertCircle className="w-6 h-6 mr-2" />
                   🔊 Hướng dẫn cài giọng đọc Tiếng Việt
@@ -175,35 +175,35 @@ const App: React.FC = () => {
               </div>
             )}
 
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">
               <span className="gradient-text">PHÂN LOẠI</span> <br />
               <span className="text-green-600">THỰC VẬT</span> & <span className="text-rose-600">ĐỘNG VẬT</span>
             </h1>
 
-            <p className="text-xl text-gray-600 max-w-lg">
+            <p className="text-lg sm:text-xl text-gray-600 max-w-lg px-2">
               Bài học tương tác sinh động dành cho các nhà sinh học tí hon! 🔬
             </p>
 
-            <p className="text-lg text-purple-600 font-medium">
+            <p className="text-base sm:text-lg text-purple-600 font-medium">
               ✨ Được biên soạn bởi cô Thanh ✨
             </p>
 
-            <div className="flex gap-4 flex-wrap justify-center">
+            <div className="flex gap-3 sm:gap-4 flex-wrap justify-center">
               <button
                 onClick={testVoice}
-                className="inline-flex items-center justify-center px-6 py-4 text-lg font-semibold text-blue-700 bg-blue-100 rounded-full hover:bg-blue-200 transition-all hover:scale-105 shadow-md"
+                className="inline-flex items-center justify-center px-4 py-3 sm:px-6 sm:py-4 text-base sm:text-lg font-semibold text-blue-700 bg-blue-100 rounded-full hover:bg-blue-200 transition-all hover:scale-105 shadow-md"
               >
-                <Volume2 className="mr-2 w-6 h-6" />
+                <Volume2 className="mr-2 w-5 h-5 sm:w-6 sm:h-6" />
                 Thử giọng đọc
               </button>
 
               <button
                 onClick={startApp}
-                className="group relative inline-flex items-center justify-center px-8 py-4 text-2xl font-bold text-white transition-all duration-200 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 hover:from-blue-500 hover:to-indigo-500 shadow-xl hover:-translate-y-1 glow-pulse"
+                className="group relative inline-flex items-center justify-center px-6 py-3 sm:px-8 sm:py-4 text-xl sm:text-2xl font-bold text-white transition-all duration-200 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 hover:from-blue-500 hover:to-indigo-500 shadow-xl hover:-translate-y-1 glow-pulse"
               >
-                <Play className="mr-3 w-8 h-8 fill-current" />
+                <Play className="mr-2 sm:mr-3 w-6 h-6 sm:w-8 sm:h-8 fill-current" />
                 Bắt đầu
-                <Sparkles className="absolute -top-2 -right-2 w-6 h-6 text-yellow-300 animate-bounce" />
+                <Sparkles className="absolute -top-2 -right-2 w-5 h-5 sm:w-6 sm:h-6 text-yellow-300 animate-bounce" />
               </button>
             </div>
           </div>

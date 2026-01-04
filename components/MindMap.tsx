@@ -24,15 +24,15 @@ const NodeCard = React.forwardRef<HTMLButtonElement, {
       <button
         ref={ref}
         onClick={onClick}
-        className="relative w-48 h-48 rounded-full flex flex-col items-center justify-center text-white 
+        className="relative w-32 h-32 sm:w-48 sm:h-48 rounded-full flex flex-col items-center justify-center text-white 
                    bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 
                    shadow-[0_8px_30px_rgba(59,130,246,0.5),inset_0_-4px_10px_rgba(0,0,0,0.2),inset_0_4px_10px_rgba(255,255,255,0.3)]
                    border-4 border-white/50
                    transition-all duration-300 hover:scale-105 hover:shadow-[0_12px_40px_rgba(59,130,246,0.6)]
                    active:scale-95 cursor-pointer z-20"
       >
-        {Icon && <Icon className="w-12 h-12 mb-2 text-white drop-shadow-lg" />}
-        <span className="text-sm font-extrabold leading-tight text-center px-3 drop-shadow-md">
+        {Icon && <Icon className="w-8 h-8 sm:w-12 sm:h-12 mb-1 sm:mb-2 text-white drop-shadow-lg" />}
+        <span className="text-xs sm:text-sm font-extrabold leading-tight text-center px-2 sm:px-3 drop-shadow-md">
           {node.title}
         </span>
       </button>
@@ -44,15 +44,15 @@ const NodeCard = React.forwardRef<HTMLButtonElement, {
       <button
         ref={ref}
         onClick={onClick}
-        className={`px-5 py-4 rounded-2xl flex items-center justify-center text-white font-extrabold text-center 
-                   min-w-[180px] max-w-[200px]
+        className={`px-3 py-2 sm:px-5 sm:py-4 rounded-2xl flex items-center justify-center text-white font-extrabold text-center 
+                   min-w-[140px] max-w-[160px] sm:min-w-[180px] sm:max-w-[200px]
                    ${bgColor}
                    shadow-[0_6px_20px_rgba(0,0,0,0.25),inset_0_-3px_8px_rgba(0,0,0,0.2),inset_0_3px_8px_rgba(255,255,255,0.25)]
                    border-2 border-white/30
                    transition-all duration-300 hover:scale-105 hover:-translate-y-1
                    active:scale-95 cursor-pointer z-10`}
       >
-        <span className="text-sm leading-tight drop-shadow-sm">{node.title}</span>
+        <span className="text-xs sm:text-sm leading-tight drop-shadow-sm">{node.title}</span>
       </button>
     );
   }
@@ -62,18 +62,18 @@ const NodeCard = React.forwardRef<HTMLButtonElement, {
     <button
       ref={ref}
       onClick={onClick}
-      className={`px-5 py-4 rounded-2xl flex flex-col items-center gap-2 min-w-[140px] max-w-[160px]
+      className={`px-3 py-2 sm:px-5 sm:py-4 rounded-2xl flex flex-col items-center gap-1 sm:gap-2 min-w-[100px] max-w-[130px] sm:min-w-[140px] sm:max-w-[160px]
                  ${bgColor}
                  shadow-[0_6px_20px_rgba(0,0,0,0.15),inset_0_-2px_6px_rgba(0,0,0,0.1),inset_0_2px_6px_rgba(255,255,255,0.5)]
                  border-2 border-white/60
                  transition-all duration-300 hover:scale-105 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(0,0,0,0.2)]
                  active:scale-95 cursor-pointer z-10`}
     >
-      {Icon && <Icon className={`w-10 h-10 ${textColor} drop-shadow-sm`} />}
+      {Icon && <Icon className={`w-7 h-7 sm:w-10 sm:h-10 ${textColor} drop-shadow-sm`} />}
       <div className="text-center">
-        <span className={`font-bold text-base block ${textColor}`}>{node.title}</span>
+        <span className={`font-bold text-sm sm:text-base block ${textColor}`}>{node.title}</span>
         {node.description && (
-          <span className="text-xs text-gray-600 mt-1 block leading-tight">{node.description}</span>
+          <span className="text-[10px] sm:text-xs text-gray-600 mt-0.5 sm:mt-1 block leading-tight">{node.description}</span>
         )}
       </div>
     </button>
@@ -256,150 +256,273 @@ export const MindMap: React.FC<MindMapProps> = ({ onComplete, onGoHome }) => {
     };
   }, []);
 
+  // Mobile detection
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
-    <div className="flex flex-col items-center min-h-screen py-4 w-full overflow-hidden">
-      <h2 className="text-2xl sm:text-3xl font-extrabold gradient-text mb-6 uppercase text-center px-4">
+    <div className="flex flex-col items-center min-h-screen py-4 w-full overflow-x-hidden overflow-y-auto pb-8">
+      <h2 className="text-xl sm:text-3xl font-extrabold gradient-text mb-4 sm:mb-6 uppercase text-center px-4">
         Sơ đồ tư duy
       </h2>
 
       {/* Home Button */}
       <button
         onClick={onGoHome}
-        className="absolute top-4 left-4 bg-white/90 hover:bg-white text-gray-700 p-3 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 z-20"
+        className="fixed top-3 left-3 bg-white/90 hover:bg-white text-gray-700 p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 z-20"
         title="Về trang chủ"
       >
-        <Home className="w-6 h-6" />
+        <Home className="w-5 h-5 sm:w-6 sm:h-6" />
       </button>
 
-      {/* Mind Map Container */}
-      <div ref={containerRef} className="relative w-full max-w-4xl mx-auto px-4">
-        {/* SVG Layer for Connection Lines */}
-        <svg
-          className="absolute inset-0 w-full h-full pointer-events-none"
-          style={{ zIndex: 1 }}
-        >
-          {lines.map((line, i) => (
-            <CurvedLine key={i} {...line} />
-          ))}
-        </svg>
+      {/* Mind Map Container - Changes layout based on screen size */}
+      <div ref={containerRef} className="relative w-full max-w-4xl mx-auto px-2 sm:px-4">
+        {/* SVG Layer - Hidden on mobile due to vertical layout */}
+        {!isMobile && (
+          <svg
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            style={{ zIndex: 1 }}
+          >
+            {lines.map((line, i) => (
+              <CurvedLine key={i} {...line} />
+            ))}
+          </svg>
+        )}
 
-        {/* Mind Map Content */}
-        <div className="relative z-10 flex flex-col items-center gap-3">
+        {/* Mind Map Content - Vertical on mobile, horizontal on desktop */}
+        <div className="relative z-10 flex flex-col items-center gap-2 sm:gap-3">
 
-          {/* Top Row - Leaf Nodes */}
-          <div className="flex justify-between w-full px-4">
-            {/* Plant Leaves */}
-            <div className="flex gap-3">
-              <NodeCard
-                ref={el => leafRefs.current[0] = el}
-                node={plantBranch.children![0]}
-                onClick={() => handleNodeClick(plantBranch.children![0])}
-                variant="leaf"
-                bgColor="bg-gradient-to-br from-green-100 to-green-200"
-                textColor="text-green-700"
-              />
-              <NodeCard
-                ref={el => leafRefs.current[1] = el}
-                node={plantBranch.children![1]}
-                onClick={() => handleNodeClick(plantBranch.children![1])}
-                variant="leaf"
-                bgColor="bg-gradient-to-br from-green-100 to-green-200"
-                textColor="text-green-700"
-              />
-            </div>
+          {/* On Mobile: Show vertical list layout */}
+          {isMobile ? (
+            <>
+              {/* Center Node */}
+              <div className="mb-4">
+                <NodeCard
+                  ref={centerRef}
+                  node={root}
+                  onClick={() => handleNodeClick(root)}
+                  variant="center"
+                />
+              </div>
 
-            {/* Animal Leaves */}
-            <div className="flex gap-3">
-              <NodeCard
-                ref={el => leafRefs.current[2] = el}
-                node={animalBranch.children![0]}
-                onClick={() => handleNodeClick(animalBranch.children![0])}
-                variant="leaf"
-                bgColor="bg-gradient-to-br from-rose-100 to-rose-200"
-                textColor="text-rose-700"
-              />
-              <NodeCard
-                ref={el => leafRefs.current[3] = el}
-                node={animalBranch.children![1]}
-                onClick={() => handleNodeClick(animalBranch.children![1])}
-                variant="leaf"
-                bgColor="bg-gradient-to-br from-rose-100 to-rose-200"
-                textColor="text-rose-700"
-              />
-            </div>
-          </div>
+              {/* Plant Section */}
+              <div className="w-full bg-green-50/50 rounded-2xl p-3 mb-3">
+                <div className="flex justify-center mb-3">
+                  <NodeCard
+                    ref={plantBranchRef}
+                    node={plantBranch}
+                    onClick={() => handleNodeClick(plantBranch)}
+                    variant="branch"
+                    bgColor="bg-gradient-to-br from-green-400 to-green-600"
+                  />
+                </div>
+                <div className="flex flex-wrap gap-2 justify-center">
+                  <NodeCard
+                    ref={el => leafRefs.current[0] = el}
+                    node={plantBranch.children![0]}
+                    onClick={() => handleNodeClick(plantBranch.children![0])}
+                    variant="leaf"
+                    bgColor="bg-gradient-to-br from-green-100 to-green-200"
+                    textColor="text-green-700"
+                  />
+                  <NodeCard
+                    ref={el => leafRefs.current[1] = el}
+                    node={plantBranch.children![1]}
+                    onClick={() => handleNodeClick(plantBranch.children![1])}
+                    variant="leaf"
+                    bgColor="bg-gradient-to-br from-green-100 to-green-200"
+                    textColor="text-green-700"
+                  />
+                </div>
+              </div>
 
-          {/* Middle Row - Branch Nodes + Center */}
-          <div className="flex items-center justify-center gap-6 my-2">
-            {/* Plant Branch */}
-            <NodeCard
-              ref={plantBranchRef}
-              node={plantBranch}
-              onClick={() => handleNodeClick(plantBranch)}
-              variant="branch"
-              bgColor="bg-gradient-to-br from-green-400 to-green-600"
-            />
+              {/* Animal Section */}
+              <div className="w-full bg-rose-50/50 rounded-2xl p-3 mb-3">
+                <div className="flex justify-center mb-3">
+                  <NodeCard
+                    ref={animalBranchRef}
+                    node={animalBranch}
+                    onClick={() => handleNodeClick(animalBranch)}
+                    variant="branch"
+                    bgColor="bg-gradient-to-br from-rose-400 to-rose-600"
+                  />
+                </div>
+                <div className="flex flex-wrap gap-2 justify-center">
+                  <NodeCard
+                    ref={el => leafRefs.current[2] = el}
+                    node={animalBranch.children![0]}
+                    onClick={() => handleNodeClick(animalBranch.children![0])}
+                    variant="leaf"
+                    bgColor="bg-gradient-to-br from-rose-100 to-rose-200"
+                    textColor="text-rose-700"
+                  />
+                  <NodeCard
+                    ref={el => leafRefs.current[3] = el}
+                    node={animalBranch.children![1]}
+                    onClick={() => handleNodeClick(animalBranch.children![1])}
+                    variant="leaf"
+                    bgColor="bg-gradient-to-br from-rose-100 to-rose-200"
+                    textColor="text-rose-700"
+                  />
+                </div>
+              </div>
 
-            {/* Center Node */}
-            <NodeCard
-              ref={centerRef}
-              node={root}
-              onClick={() => handleNodeClick(root)}
-              variant="center"
-            />
+              {/* Usage Section */}
+              <div className="w-full bg-violet-50/50 rounded-2xl p-3">
+                <div className="flex justify-center mb-3">
+                  <NodeCard
+                    ref={usageBranchRef}
+                    node={usageBranch}
+                    onClick={() => handleNodeClick(usageBranch)}
+                    variant="branch"
+                    bgColor="bg-gradient-to-br from-violet-500 to-purple-600"
+                  />
+                </div>
+                <div className="flex flex-wrap gap-2 justify-center">
+                  <NodeCard
+                    ref={el => leafRefs.current[4] = el}
+                    node={usageBranch.children![0]}
+                    onClick={() => handleNodeClick(usageBranch.children![0])}
+                    variant="leaf"
+                    bgColor="bg-gradient-to-br from-yellow-100 to-yellow-200"
+                    textColor="text-yellow-700"
+                  />
+                  <NodeCard
+                    ref={el => leafRefs.current[5] = el}
+                    node={usageBranch.children![1]}
+                    onClick={() => handleNodeClick(usageBranch.children![1])}
+                    variant="leaf"
+                    bgColor="bg-gradient-to-br from-orange-100 to-orange-200"
+                    textColor="text-orange-700"
+                  />
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Desktop: Original horizontal layout */}
+              {/* Top Row - Leaf Nodes */}
+              <div className="flex justify-between w-full px-4">
+                {/* Plant Leaves */}
+                <div className="flex gap-3">
+                  <NodeCard
+                    ref={el => leafRefs.current[0] = el}
+                    node={plantBranch.children![0]}
+                    onClick={() => handleNodeClick(plantBranch.children![0])}
+                    variant="leaf"
+                    bgColor="bg-gradient-to-br from-green-100 to-green-200"
+                    textColor="text-green-700"
+                  />
+                  <NodeCard
+                    ref={el => leafRefs.current[1] = el}
+                    node={plantBranch.children![1]}
+                    onClick={() => handleNodeClick(plantBranch.children![1])}
+                    variant="leaf"
+                    bgColor="bg-gradient-to-br from-green-100 to-green-200"
+                    textColor="text-green-700"
+                  />
+                </div>
 
-            {/* Animal Branch */}
-            <NodeCard
-              ref={animalBranchRef}
-              node={animalBranch}
-              onClick={() => handleNodeClick(animalBranch)}
-              variant="branch"
-              bgColor="bg-gradient-to-br from-rose-400 to-rose-600"
-            />
-          </div>
+                {/* Animal Leaves */}
+                <div className="flex gap-3">
+                  <NodeCard
+                    ref={el => leafRefs.current[2] = el}
+                    node={animalBranch.children![0]}
+                    onClick={() => handleNodeClick(animalBranch.children![0])}
+                    variant="leaf"
+                    bgColor="bg-gradient-to-br from-rose-100 to-rose-200"
+                    textColor="text-rose-700"
+                  />
+                  <NodeCard
+                    ref={el => leafRefs.current[3] = el}
+                    node={animalBranch.children![1]}
+                    onClick={() => handleNodeClick(animalBranch.children![1])}
+                    variant="leaf"
+                    bgColor="bg-gradient-to-br from-rose-100 to-rose-200"
+                    textColor="text-rose-700"
+                  />
+                </div>
+              </div>
 
-          {/* Bottom Section - Usage Branch */}
-          <div className="flex flex-col items-center gap-3 mt-2">
-            {/* Usage Branch Node */}
-            <NodeCard
-              ref={usageBranchRef}
-              node={usageBranch}
-              onClick={() => handleNodeClick(usageBranch)}
-              variant="branch"
-              bgColor="bg-gradient-to-br from-violet-500 to-purple-600"
-            />
+              {/* Middle Row - Branch Nodes + Center */}
+              <div className="flex items-center justify-center gap-6 my-2">
+                {/* Plant Branch */}
+                <NodeCard
+                  ref={plantBranchRef}
+                  node={plantBranch}
+                  onClick={() => handleNodeClick(plantBranch)}
+                  variant="branch"
+                  bgColor="bg-gradient-to-br from-green-400 to-green-600"
+                />
 
-            {/* Usage Leaves */}
-            <div className="flex gap-4">
-              <NodeCard
-                ref={el => leafRefs.current[4] = el}
-                node={usageBranch.children![0]}
-                onClick={() => handleNodeClick(usageBranch.children![0])}
-                variant="leaf"
-                bgColor="bg-gradient-to-br from-yellow-100 to-yellow-200"
-                textColor="text-yellow-700"
-              />
-              <NodeCard
-                ref={el => leafRefs.current[5] = el}
-                node={usageBranch.children![1]}
-                onClick={() => handleNodeClick(usageBranch.children![1])}
-                variant="leaf"
-                bgColor="bg-gradient-to-br from-orange-100 to-orange-200"
-                textColor="text-orange-700"
-              />
-            </div>
-          </div>
+                {/* Center Node */}
+                <NodeCard
+                  ref={centerRef}
+                  node={root}
+                  onClick={() => handleNodeClick(root)}
+                  variant="center"
+                />
+
+                {/* Animal Branch */}
+                <NodeCard
+                  ref={animalBranchRef}
+                  node={animalBranch}
+                  onClick={() => handleNodeClick(animalBranch)}
+                  variant="branch"
+                  bgColor="bg-gradient-to-br from-rose-400 to-rose-600"
+                />
+              </div>
+
+              {/* Bottom Section - Usage Branch */}
+              <div className="flex flex-col items-center gap-3 mt-2">
+                {/* Usage Branch Node */}
+                <NodeCard
+                  ref={usageBranchRef}
+                  node={usageBranch}
+                  onClick={() => handleNodeClick(usageBranch)}
+                  variant="branch"
+                  bgColor="bg-gradient-to-br from-violet-500 to-purple-600"
+                />
+
+                {/* Usage Leaves */}
+                <div className="flex gap-4">
+                  <NodeCard
+                    ref={el => leafRefs.current[4] = el}
+                    node={usageBranch.children![0]}
+                    onClick={() => handleNodeClick(usageBranch.children![0])}
+                    variant="leaf"
+                    bgColor="bg-gradient-to-br from-yellow-100 to-yellow-200"
+                    textColor="text-yellow-700"
+                  />
+                  <NodeCard
+                    ref={el => leafRefs.current[5] = el}
+                    node={usageBranch.children![1]}
+                    onClick={() => handleNodeClick(usageBranch.children![1])}
+                    variant="leaf"
+                    bgColor="bg-gradient-to-br from-orange-100 to-orange-200"
+                    textColor="text-orange-700"
+                  />
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
-      <p className="text-gray-500 mt-4 text-center px-4 text-sm">
+      <p className="text-gray-500 mt-4 text-center px-4 text-xs sm:text-sm">
         💡 Bấm vào các ô để nghe kiến thức
       </p>
 
       <button
         onClick={onComplete}
         className="mt-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 
-                   text-white text-lg font-bold py-3 px-10 rounded-full 
+                   text-white text-base sm:text-lg font-bold py-3 px-6 sm:px-10 rounded-full 
                    shadow-[0_8px_30px_rgba(99,102,241,0.4)]
                    transform transition hover:scale-105 hover:-translate-y-1 active:scale-95 glow-pulse"
       >
