@@ -302,7 +302,7 @@ export const MindMap: React.FC<MindMapProps> = ({ onComplete, onGoHome }) => {
           {isMobile ? (
             <>
               {/* Center Node */}
-              <div className="mb-4">
+              <div className="mb-2">
                 <NodeCard
                   ref={centerRef}
                   node={root}
@@ -311,8 +311,14 @@ export const MindMap: React.FC<MindMapProps> = ({ onComplete, onGoHome }) => {
                 />
               </div>
 
+              {/* Connector Arrow */}
+              <div className="flex flex-col items-center text-gray-400 my-1">
+                <div className="w-1 h-4 bg-gradient-to-b from-blue-400 to-green-400 rounded-full"></div>
+                <div className="text-green-500 text-lg">▼</div>
+              </div>
+
               {/* Plant Section */}
-              <div className="w-full bg-green-50/50 rounded-2xl p-3 mb-3">
+              <div className="w-full bg-green-50/50 rounded-2xl p-3 mb-2">
                 <div className="flex justify-center mb-3">
                   <NodeCard
                     ref={plantBranchRef}
@@ -342,8 +348,14 @@ export const MindMap: React.FC<MindMapProps> = ({ onComplete, onGoHome }) => {
                 </div>
               </div>
 
+              {/* Connector Arrow */}
+              <div className="flex flex-col items-center text-gray-400 my-1">
+                <div className="w-1 h-4 bg-gradient-to-b from-green-400 to-rose-400 rounded-full"></div>
+                <div className="text-rose-500 text-lg">▼</div>
+              </div>
+
               {/* Animal Section */}
-              <div className="w-full bg-rose-50/50 rounded-2xl p-3 mb-3">
+              <div className="w-full bg-rose-50/50 rounded-2xl p-3 mb-2">
                 <div className="flex justify-center mb-3">
                   <NodeCard
                     ref={animalBranchRef}
@@ -371,6 +383,12 @@ export const MindMap: React.FC<MindMapProps> = ({ onComplete, onGoHome }) => {
                     textColor="text-rose-700"
                   />
                 </div>
+              </div>
+
+              {/* Connector Arrow */}
+              <div className="flex flex-col items-center text-gray-400 my-1">
+                <div className="w-1 h-4 bg-gradient-to-b from-rose-400 to-violet-400 rounded-full"></div>
+                <div className="text-violet-500 text-lg">▼</div>
               </div>
 
               {/* Usage Section */}
@@ -521,7 +539,7 @@ export const MindMap: React.FC<MindMapProps> = ({ onComplete, onGoHome }) => {
 
       <button
         onClick={onComplete}
-        className="mt-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 
+        className="mt-4 mb-24 sm:mb-8 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 
                    text-white text-base sm:text-lg font-bold py-3 px-6 sm:px-10 rounded-full 
                    shadow-[0_8px_30px_rgba(99,102,241,0.4)]
                    transform transition hover:scale-105 hover:-translate-y-1 active:scale-95 glow-pulse"
